@@ -398,9 +398,11 @@ class _OrderConfirmationScreenState extends State<OrderConfirmationScreen>
                               child: Row(
                                 children: [
                                   // Image
-                                  ImageUtils.getImageWidget(
+                                  ImageUtils.getRoundedImage(
                                     item.menuItem.imageUrl,
-                                    fontSize: 32,
+                                    width: 60,
+                                    height: 60,
+                                    borderRadius: 8,
                                   ),
 
                                   const SizedBox(width: 16),

@@ -11,7 +11,7 @@ class MenuData {
             'Crispy shells filled with spiced water, chickpeas, and tamarind',
         price: 150.0,
         category: 'Appetizers',
-        imageUrl: '🥟',
+        imageUrl: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRVxMDZ89fmuKlbqzOdXvFvhLA89V4J_klI3Q&s',
         isVegetarian: true,
       ),
       MenuItem(
