@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import '../services/auth_service.dart';
 import 'splash_screen.dart';
 
 class LoginScreen extends StatefulWidget {
@@ -19,10 +20,6 @@ class _LoginScreenState extends State<LoginScreen>
   late AnimationController _animationController;
   late Animation<double> _fadeAnimation;
   late Animation<Offset> _slideAnimation;
-
-  // Credentials
-  static const String validUsername = 'pritom';
-  static const String validPassword = '12345';
 
   @override
   void initState() {
@@ -68,8 +65,14 @@ class _LoginScreenState extends State<LoginScreen>
     // Simulate API call delay
     await Future.delayed(const Duration(seconds: 2));
 
-    if (_usernameController.text == validUsername &&
-        _passwordController.text == validPassword) {
+    // Use AuthService to validate credentials
+    if (AuthService.validateCredentials(
+      _usernameController.text,
+      _passwordController.text,
+    )) {
+      // Save login state
+      await AuthService.saveLoginState(_usernameController.text);
+
       // Success - navigate to splash screen
       if (mounted) {
         Navigator.of(context).pushReplacement(

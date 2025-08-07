@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import '../models/menu_item.dart';
 import '../services/cart_service.dart';
+import '../services/auth_service.dart';
 import '../data/menu_data.dart';
 import '../widgets/menu_item_card.dart';
 import '../widgets/category_chip.dart';
@@ -432,14 +433,18 @@ class _HomeScreenState extends State<HomeScreen> {
             ),
           ),
           ElevatedButton(
-            onPressed: () {
+            onPressed: () async {
               // Clear cart on logout
               _cartService.clearCart();
+              // Clear login state
+              await AuthService.clearLoginState();
               // Navigate to login screen
-              Navigator.of(context).pushAndRemoveUntil(
-                MaterialPageRoute(builder: (context) => const LoginScreen()),
-                (route) => false,
-              );
+              if (mounted) {
+                Navigator.of(context).pushAndRemoveUntil(
+                  MaterialPageRoute(builder: (context) => const LoginScreen()),
+                  (route) => false,
+                );
+              }
             },
             style: ElevatedButton.styleFrom(
               backgroundColor: Colors.red,

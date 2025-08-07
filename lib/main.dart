@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'screens/login_screen.dart';
+import 'screens/auth_wrapper.dart';
 
 void main() {
   runApp(const RestaurantApp());
@@ -25,7 +25,7 @@ class RestaurantApp extends StatelessWidget {
         fontFamily: 'serif',
         useMaterial3: true,
       ),
-      home: const LoginScreen(),
+      home: const AuthWrapper(),
       debugShowCheckedModeBanner: false,
     );
   }
