@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import '../services/cart_service.dart';
 import '../models/menu_item.dart';
+import '../utils/image_utils.dart';
 import 'order_confirmation_screen.dart';
 
 class CartScreen extends StatefulWidget {
@@ -125,19 +126,11 @@ class _CartScreenState extends State<CartScreen> {
         child: Row(
           children: [
             // Item image
-            Container(
+            ImageUtils.getRoundedImage(
+              cartItem.menuItem.imageUrl,
               width: 60,
               height: 60,
-              decoration: BoxDecoration(
-                color: const Color(0xFF2C1810).withOpacity(0.1),
-                borderRadius: BorderRadius.circular(8),
-              ),
-              child: Center(
-                child: Text(
-                  cartItem.menuItem.imageUrl,
-                  style: const TextStyle(fontSize: 24),
-                ),
-              ),
+              borderRadius: 8,
             ),
 
             const SizedBox(width: 12),

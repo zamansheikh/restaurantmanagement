@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'dart:math';
 import '../services/cart_service.dart';
+import '../utils/image_utils.dart';
 
 class OrderConfirmationScreen extends StatefulWidget {
   final CartService cartService;
@@ -324,61 +325,203 @@ class _OrderConfirmationScreenState extends State<OrderConfirmationScreen>
     showModalBottomSheet(
       context: context,
       isScrollControlled: true,
+      backgroundColor: Colors.transparent,
       shape: const RoundedRectangleBorder(
         borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
       ),
-      builder: (context) => DraggableScrollableSheet(
-        initialChildSize: 0.7,
-        maxChildSize: 0.9,
-        minChildSize: 0.5,
-        builder: (context, scrollController) => Container(
-          padding: const EdgeInsets.all(20),
-          child: Column(
-            children: [
-              Container(
-                width: 40,
-                height: 4,
-                decoration: BoxDecoration(
-                  color: Colors.grey[300],
-                  borderRadius: BorderRadius.circular(2),
-                ),
+      builder: (context) => Container(
+        height: MediaQuery.of(context).size.height * 0.75,
+        decoration: const BoxDecoration(
+          color: Color(0xFFFFF8E1),
+          borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
+        ),
+        child: Column(
+          children: [
+            // Handle bar
+            Container(
+              margin: const EdgeInsets.symmetric(vertical: 12),
+              width: 40,
+              height: 4,
+              decoration: BoxDecoration(
+                color: Colors.grey[400],
+                borderRadius: BorderRadius.circular(2),
               ),
-              const SizedBox(height: 20),
-              Text(
-                'Order #$orderId',
-                style: const TextStyle(
-                  fontSize: 24,
-                  fontWeight: FontWeight.bold,
-                  color: Color(0xFF2C1810),
-                ),
+            ),
+
+            // Header
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 20),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Text(
+                    'Order #$orderId',
+                    style: const TextStyle(
+                      fontSize: 24,
+                      fontWeight: FontWeight.bold,
+                      color: Color(0xFF2C1810),
+                    ),
+                  ),
+                  IconButton(
+                    onPressed: () => Navigator.pop(context),
+                    icon: const Icon(Icons.close, color: Color(0xFF2C1810)),
+                  ),
+                ],
               ),
-              const SizedBox(height: 20),
-              Expanded(
-                child: ListView.builder(
-                  controller: scrollController,
-                  itemCount: widget.cartService.items.length,
-                  itemBuilder: (context, index) {
-                    final item = widget.cartService.items[index];
-                    return Card(
-                      margin: const EdgeInsets.only(bottom: 8),
-                      child: ListTile(
-                        leading: Text(
-                          item.menuItem.imageUrl,
-                          style: const TextStyle(fontSize: 24),
-                        ),
-                        title: Text(item.menuItem.name),
-                        subtitle: Text('Quantity: ${item.quantity}'),
-                        trailing: Text(
-                          'TK ${item.totalPrice.toStringAsFixed(0)}',
-                          style: const TextStyle(fontWeight: FontWeight.bold),
-                        ),
+            ),
+
+            const Divider(
+              color: Color(0xFF2C1810),
+              thickness: 1,
+              indent: 20,
+              endIndent: 20,
+            ),
+
+            const SizedBox(height: 10),
+
+            // Order items list
+            Expanded(
+              child: SingleChildScrollView(
+                padding: const EdgeInsets.symmetric(horizontal: 20),
+                child: Column(
+                  children: [
+                    ...widget.cartService.items
+                        .map(
+                          (item) => Card(
+                            margin: const EdgeInsets.only(bottom: 12),
+                            elevation: 4,
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(12),
+                            ),
+                            child: Padding(
+                              padding: const EdgeInsets.all(16),
+                              child: Row(
+                                children: [
+                                  // Image
+                                  ImageUtils.getImageWidget(
+                                    item.menuItem.imageUrl,
+                                    fontSize: 32,
+                                  ),
+
+                                  const SizedBox(width: 16),
+
+                                  // Details
+                                  Expanded(
+                                    child: Column(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      children: [
+                                        Text(
+                                          item.menuItem.name,
+                                          style: const TextStyle(
+                                            fontSize: 16,
+                                            fontWeight: FontWeight.bold,
+                                            color: Color(0xFF2C1810),
+                                          ),
+                                        ),
+                                        const SizedBox(height: 4),
+                                        Text(
+                                          'Quantity: ${item.quantity}',
+                                          style: TextStyle(
+                                            fontSize: 14,
+                                            color: const Color(
+                                              0xFF2C1810,
+                                            ).withOpacity(0.7),
+                                          ),
+                                        ),
+                                        const SizedBox(height: 4),
+                                        Text(
+                                          'TK ${item.menuItem.price.toStringAsFixed(0)} each',
+                                          style: TextStyle(
+                                            fontSize: 12,
+                                            color: const Color(
+                                              0xFF2C1810,
+                                            ).withOpacity(0.5),
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+
+                                  // Total price
+                                  Text(
+                                    'TK ${item.totalPrice.toStringAsFixed(0)}',
+                                    style: const TextStyle(
+                                      fontSize: 18,
+                                      fontWeight: FontWeight.bold,
+                                      color: Color(0xFF2C1810),
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ),
+                        )
+                        .toList(),
+
+                    const SizedBox(height: 20),
+
+                    // Total summary
+                    Container(
+                      padding: const EdgeInsets.all(20),
+                      decoration: BoxDecoration(
+                        color: const Color(0xFF2C1810),
+                        borderRadius: BorderRadius.circular(12),
                       ),
-                    );
-                  },
+                      child: Column(
+                        children: [
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              const Text(
+                                'Total Items:',
+                                style: TextStyle(
+                                  color: Color(0xFFFFF8E1),
+                                  fontSize: 16,
+                                ),
+                              ),
+                              Text(
+                                '${widget.cartService.itemCount}',
+                                style: const TextStyle(
+                                  color: Color(0xFFFFF8E1),
+                                  fontSize: 16,
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              ),
+                            ],
+                          ),
+                          const SizedBox(height: 8),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              const Text(
+                                'Grand Total:',
+                                style: TextStyle(
+                                  color: Color(0xFFD4AF37),
+                                  fontSize: 20,
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              ),
+                              Text(
+                                'TK ${widget.total.toStringAsFixed(0)}',
+                                style: const TextStyle(
+                                  color: Color(0xFFD4AF37),
+                                  fontSize: 20,
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              ),
+                            ],
+                          ),
+                        ],
+                      ),
+                    ),
+
+                    const SizedBox(height: 20),
+                  ],
                 ),
               ),
-            ],
-          ),
+            ),
+          ],
         ),
       ),
     );

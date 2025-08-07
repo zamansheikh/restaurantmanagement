@@ -11,12 +11,15 @@ class ImageUtils {
   }) {
     // Check if it's an emoji (single character that's not alphanumeric)
     if (_isEmoji(imageSource)) {
-      return Text(
-        imageSource,
-        style: TextStyle(fontSize: fontSize ?? 32),
+      return Center(
+        child: Text(
+          imageSource,
+          style: TextStyle(fontSize: fontSize ?? 32),
+          textAlign: TextAlign.center,
+        ),
       );
     }
-    
+
     // Check if it's a network URL
     if (_isNetworkUrl(imageSource)) {
       return Image.network(
@@ -32,10 +35,7 @@ class ImageUtils {
               color: Colors.grey[300],
               borderRadius: BorderRadius.circular(8),
             ),
-            child: const Icon(
-              Icons.image_not_supported,
-              color: Colors.grey,
-            ),
+            child: const Icon(Icons.image_not_supported, color: Colors.grey),
           );
         },
         loadingBuilder: (context, child, loadingProgress) {
@@ -47,14 +47,12 @@ class ImageUtils {
               color: Colors.grey[300],
               borderRadius: BorderRadius.circular(8),
             ),
-            child: const Center(
-              child: CircularProgressIndicator(),
-            ),
+            child: const Center(child: CircularProgressIndicator()),
           );
         },
       );
     }
-    
+
     // Check if it's an asset image
     if (_isAssetImage(imageSource)) {
       return Image.asset(
@@ -70,15 +68,12 @@ class ImageUtils {
               color: Colors.grey[300],
               borderRadius: BorderRadius.circular(8),
             ),
-            child: const Icon(
-              Icons.image_not_supported,
-              color: Colors.grey,
-            ),
+            child: const Icon(Icons.image_not_supported, color: Colors.grey),
           );
         },
       );
     }
-    
+
     // Default fallback - treat as emoji or show placeholder
     return Container(
       width: width,
@@ -91,6 +86,7 @@ class ImageUtils {
         child: Text(
           imageSource.isNotEmpty ? imageSource : '🍽️',
           style: TextStyle(fontSize: fontSize ?? 32),
+          textAlign: TextAlign.center,
         ),
       ),
     );
@@ -99,30 +95,30 @@ class ImageUtils {
   /// Check if the string is an emoji
   static bool _isEmoji(String text) {
     if (text.isEmpty || text.length > 4) return false;
-    
+
     // Check if it contains common emoji patterns
     final emojiRegex = RegExp(
       r'[\u{1f300}-\u{1f5ff}]|[\u{1f600}-\u{1f64f}]|[\u{1f680}-\u{1f6ff}]|[\u{1f700}-\u{1f77f}]|[\u{1f780}-\u{1f7ff}]|[\u{1f800}-\u{1f8ff}]|[\u{2600}-\u{26ff}]|[\u{2700}-\u{27bf}]',
       unicode: true,
     );
-    
+
     return emojiRegex.hasMatch(text) || text.runes.any((rune) => rune > 127);
   }
 
   /// Check if the string is a network URL
   static bool _isNetworkUrl(String text) {
-    return text.startsWith('http://') || 
-           text.startsWith('https://') || 
-           text.startsWith('www.');
+    return text.startsWith('http://') ||
+        text.startsWith('https://') ||
+        text.startsWith('www.');
   }
 
   /// Check if the string is an asset image path
   static bool _isAssetImage(String text) {
-    return text.startsWith('assets/') && 
-           (text.endsWith('.jpg') || 
-            text.endsWith('.jpeg') || 
-            text.endsWith('.png') || 
-            text.endsWith('.gif') || 
+    return text.startsWith('assets/') &&
+        (text.endsWith('.jpg') ||
+            text.endsWith('.jpeg') ||
+            text.endsWith('.png') ||
+            text.endsWith('.gif') ||
             text.endsWith('.webp'));
   }
 
@@ -138,9 +134,9 @@ class ImageUtils {
       height: radius * 2,
       decoration: BoxDecoration(
         shape: BoxShape.circle,
-        border: borderColor != null 
-          ? Border.all(color: borderColor, width: borderWidth)
-          : null,
+        border: borderColor != null
+            ? Border.all(color: borderColor, width: borderWidth)
+            : null,
       ),
       child: ClipOval(
         child: getImageWidget(

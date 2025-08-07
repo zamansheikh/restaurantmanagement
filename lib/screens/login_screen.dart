@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import '../utils/responsive_utils.dart';
 import 'splash_screen.dart';
 
 class LoginScreen extends StatefulWidget {
@@ -33,21 +32,20 @@ class _LoginScreenState extends State<LoginScreen>
       vsync: this,
     );
 
-    _fadeAnimation = Tween<double>(
-      begin: 0.0,
-      end: 1.0,
-    ).animate(CurvedAnimation(
-      parent: _animationController,
-      curve: const Interval(0.0, 0.6, curve: Curves.easeOut),
-    ));
+    _fadeAnimation = Tween<double>(begin: 0.0, end: 1.0).animate(
+      CurvedAnimation(
+        parent: _animationController,
+        curve: const Interval(0.0, 0.6, curve: Curves.easeOut),
+      ),
+    );
 
-    _slideAnimation = Tween<Offset>(
-      begin: const Offset(0, 0.3),
-      end: Offset.zero,
-    ).animate(CurvedAnimation(
-      parent: _animationController,
-      curve: const Interval(0.3, 1.0, curve: Curves.elasticOut),
-    ));
+    _slideAnimation =
+        Tween<Offset>(begin: const Offset(0, 0.3), end: Offset.zero).animate(
+          CurvedAnimation(
+            parent: _animationController,
+            curve: const Interval(0.3, 1.0, curve: Curves.elasticOut),
+          ),
+        );
 
     _animationController.forward();
   }
@@ -75,9 +73,7 @@ class _LoginScreenState extends State<LoginScreen>
       // Success - navigate to splash screen
       if (mounted) {
         Navigator.of(context).pushReplacement(
-          MaterialPageRoute(
-            builder: (context) => const SplashScreen(),
-          ),
+          MaterialPageRoute(builder: (context) => const SplashScreen()),
         );
       }
     } else {
@@ -106,9 +102,9 @@ class _LoginScreenState extends State<LoginScreen>
       body: SafeArea(
         child: Center(
           child: SingleChildScrollView(
-            padding: ResponsiveUtils.getResponsivePadding(context),
+            padding: const EdgeInsets.all(24.0),
             child: ConstrainedBox(
-              constraints: ResponsiveUtils.getResponsiveConstraints(context),
+              constraints: const BoxConstraints(maxWidth: 400),
               child: FadeTransition(
                 opacity: _fadeAnimation,
                 child: SlideTransition(
@@ -119,9 +115,7 @@ class _LoginScreenState extends State<LoginScreen>
                       borderRadius: BorderRadius.circular(20),
                     ),
                     child: Padding(
-                      padding: EdgeInsets.all(
-                        ResponsiveUtils.isMobile(context) ? 24 : 32,
-                      ),
+                      padding: const EdgeInsets.all(32),
                       child: Form(
                         key: _formKey,
                         child: Column(
@@ -147,10 +141,7 @@ class _LoginScreenState extends State<LoginScreen>
                             Text(
                               'Mac \'n\' Cheese',
                               style: TextStyle(
-                                fontSize: ResponsiveUtils.getResponsiveFontSize(
-                                  context,
-                                  28,
-                                ),
+                                fontSize: 28,
                                 fontWeight: FontWeight.bold,
                                 color: const Color(0xFF2C1810),
                               ),
@@ -161,10 +152,7 @@ class _LoginScreenState extends State<LoginScreen>
                             Text(
                               'Restaurant Management',
                               style: TextStyle(
-                                fontSize: ResponsiveUtils.getResponsiveFontSize(
-                                  context,
-                                  16,
-                                ),
+                                fontSize: 16,
                                 color: const Color(0xFF2C1810).withOpacity(0.7),
                                 fontStyle: FontStyle.italic,
                               ),
@@ -282,18 +270,14 @@ class _LoginScreenState extends State<LoginScreen>
                                           strokeWidth: 2,
                                           valueColor:
                                               AlwaysStoppedAnimation<Color>(
-                                            Color(0xFFFFF8E1),
-                                          ),
+                                                Color(0xFFFFF8E1),
+                                              ),
                                         ),
                                       )
                                     : Text(
                                         'Login',
                                         style: TextStyle(
-                                          fontSize: ResponsiveUtils
-                                              .getResponsiveFontSize(
-                                            context,
-                                            18,
-                                          ),
+                                          fontSize: 18,
                                           fontWeight: FontWeight.bold,
                                         ),
                                       ),
@@ -324,8 +308,7 @@ class _LoginScreenState extends State<LoginScreen>
                                   Text(
                                     'Demo Credentials',
                                     style: TextStyle(
-                                      fontSize: ResponsiveUtils
-                                          .getResponsiveFontSize(context, 14),
+                                      fontSize: 14,
                                       fontWeight: FontWeight.bold,
                                       color: const Color(0xFF2C1810),
                                     ),
@@ -334,10 +317,10 @@ class _LoginScreenState extends State<LoginScreen>
                                   Text(
                                     'Username: pritom\nPassword: 12345',
                                     style: TextStyle(
-                                      fontSize: ResponsiveUtils
-                                          .getResponsiveFontSize(context, 12),
-                                      color: const Color(0xFF2C1810)
-                                          .withOpacity(0.8),
+                                      fontSize: 12,
+                                      color: const Color(
+                                        0xFF2C1810,
+                                      ).withOpacity(0.8),
                                     ),
                                     textAlign: TextAlign.center,
                                   ),

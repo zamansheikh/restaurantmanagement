@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import '../models/menu_item.dart';
 import '../services/cart_service.dart';
+import '../utils/image_utils.dart';
 
 class MenuItemCard extends StatefulWidget {
   final MenuItem menuItem;
@@ -65,19 +66,11 @@ class _MenuItemCardState extends State<MenuItemCard> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               // Menu item image/emoji
-              Container(
+              ImageUtils.getRoundedImage(
+                widget.menuItem.imageUrl,
                 width: 80,
                 height: 80,
-                decoration: BoxDecoration(
-                  color: const Color(0xFF2C1810).withOpacity(0.1),
-                  borderRadius: BorderRadius.circular(12),
-                ),
-                child: Center(
-                  child: Text(
-                    widget.menuItem.imageUrl,
-                    style: const TextStyle(fontSize: 32),
-                  ),
-                ),
+                borderRadius: 12,
               ),
 
               const SizedBox(width: 16),
